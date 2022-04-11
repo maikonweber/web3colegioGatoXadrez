@@ -1,0 +1,26 @@
+{
+  "name": "colegioxadrez",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^1.8.8",
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "axios": "^0.26.1",
+    "dotenv": "^16.0.0",
+    "ethers": "^5.6.2",
+    "framer-motion": "^6.2.9",
+    "ipfs-http-client": "^56.0.2",
+    "next": "12.1.4",
+    "react": "18.0.0",
+    "react-dom": "18.0.0",
+    "web3": "^1.7.3",
+    "web3modal": "^1.9.6"
+  }
+}
