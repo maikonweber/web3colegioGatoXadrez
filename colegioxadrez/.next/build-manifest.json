@@ -20,6 +20,11 @@
       "static/chunks/main.js",
       "static/chunks/pages/index.js"
     ],
+    "/CreateItem": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/CreateItem.js"
+    ],
     "/_app": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",

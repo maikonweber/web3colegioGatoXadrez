@@ -1,37 +1,29 @@
-import Flex from '@chakra-ui/react';
+import {Flex, BreadcrumbDivider, Heading, Breadcrumb, BreadcrumbItem , BreadcrumbLink } from '@chakra-ui/react';
 import Link from 'next/link';
 
 const linker = (props) => {
     return (
-       <Flex 
-         width='100vw'
-        height='80px'
+<Breadcrumb
+    height={10}
+    spacing={4}
+    separator = ""
+    fontWeight="bold"
+    fontSize="sm"
+    color="black"
+    alignItems="center"
+>
+  <BreadcrumbItem>
+    <BreadcrumbLink href='CreateItem'>Home</BreadcrumbLink>
+  </BreadcrumbItem>
 
-       >
-             <ul>
-                    <li>
-                        <Link href='/'>
-                            <a>Home</a>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href='/create-item'>
-                            <a>Create Item</a>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href='/my-items'>
-                            <a>My Items</a>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href='/dashboard'>
-                            <a>Market</a>
-                        </Link>
-                    </li>
-             </ul>
-       </Flex>
+  <BreadcrumbItem>
+    <BreadcrumbLink href='#'>About</BreadcrumbLink>
+  </BreadcrumbItem>
 
+  <BreadcrumbItem isCurrentPage>
+    <BreadcrumbLink href='#'>Contact</BreadcrumbLink>
+  </BreadcrumbItem>
+</Breadcrumb>
     )
 }
 
