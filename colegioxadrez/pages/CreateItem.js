@@ -41,8 +41,10 @@ export function CreateItem() {
       async function createItem() {
           const { name, description, price } = formInput;
 
+          console.log(formInput)
+
           if(!name || !description || !price || !fileUrl) {
-              console.log('error');
+              alert('error');
             return     
           }
             const data = JSON.stringify({
@@ -51,9 +53,15 @@ export function CreateItem() {
                     image: fileUrl
                 });
 
+                console.log(data)
+            
                 try {
                     const added = await client.add(data);
-                    const url = `https://ipfs.infura.io/ipfs/${added.path}`;
+
+                    console.log(added)
+
+                    const url = `https://ipfs.infura.io:5001/${added.path}`;
+                    console.log(url)
                     createSale(url)
                 } catch (err) {
                     console.log("Error: ", err)

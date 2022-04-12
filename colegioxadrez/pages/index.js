@@ -26,8 +26,9 @@ const [loadingState, setLoadingState] = useState('no-loaded');
 
         const items = await Promise.all(data.map (async i => {
            const tokenUri = await tokenContract.tokenURI(i.tokenId);
+            const meta = await axios.get(tokenUri);
 
-           const meta = await axios.get(tokenUri);
+         
             // Convert data to JSON
             
 
@@ -39,7 +40,7 @@ const [loadingState, setLoadingState] = useState('no-loaded');
                 seller: i.seller,
                 owner : i.owner,
                 image : meta.config.url,
-                name : meta.data.name,
+                name : meta.config.name,
                 description : meta.data.description
             }
             console.log(item, "item")
@@ -48,18 +49,9 @@ const [loadingState, setLoadingState] = useState('no-loaded');
         }));
             setNfts(items);
             setLoadingState('loaded');
-
     }
 
-    // if(loadingState === 'no-loaded' && !nfts.length) return ( 
-        // <>
-        // {/* <Flex justifyContent="center" alignItems="center" height="30vh">
-        // <Text fontSize="lg" fontWeight="bold"> Nenhum NFT Encontrado </Text>
-        // </Flex> */}
-
-        // </>
-        // )
-       
+    
 
     async function buyNFT(nft) {
         let web3Modal = new Web3Modal();
@@ -76,26 +68,38 @@ const [loadingState, setLoadingState] = useState('no-loaded');
 
     useEffect(() => {
         loadNfts();
-        console.log(nfts)
+        
     }, [])
 
     
 
     return (
         <>
+        {loadingState === 'no-loaded' ? (
+                    <>
+                    <Flex justifyContent="center" alignItems="center" height="30vh">
+                    <Text fontSize="lg" fontWeight="bold"> Nenhum NFT Encontrado </Text>
+                    </Flex>
+                    </>
+        ) : (
         <Flex
         width='100vw'
-        height={['100vh', '100vh', '100vh', '100vh', '100vh']}
         alignItems='center'
         justifyContent='center'
         bg='red.100'
         >
         <Grid
-        templateColumns={['1fr', '1fr', '1fr', '1fr', '1fr']}
-        templeteRow={['1fr', '1fr', '1fr', '1fr', '1fr']}
-        gap={['1rem', '1rem', '1rem', '1rem', '1rem']}
+            templateColumns={['1fr', '1fr', '1fr', '1fr', '1fr']}
+            templeteRow={['1fr', '1fr', '1fr', '1fr', '1fr']}
+            gap={['1rem', '1rem', '1rem', '1rem', '1rem']}
         >
         {nfts.map(nft => (
+            <Box 
+                bg='red.200'
+                borderRadius='lg'
+                boxShadow='lg'
+                p={5}
+            >
             <Box
             key={nft.tokenId}
             display='flex'
@@ -104,15 +108,39 @@ const [loadingState, setLoadingState] = useState('no-loaded');
             <Image 
             width='350px'
             height='350px'
-            src={nft.image}></Image>
-            <Text fontSize='lg' fontWeight='bold'>{nft.name}</Text>
-            <Text fontSize='lg' fontWeight='bold'>{nft.description}</Text>
-            <Text fontSize='lg' fontWeight='bold'>{nft.price}</Text>
+            borderRadius='lg'
+            border='1px solid'
+            boxShadow='lg'
+           ></Image>
+            
+            <Text fontSize='lg'
+            fontWeight='bold'>{nft.name}</Text>
+            <Text fontSize='lg'
+             fontWeight='bold'>{nft.description}</Text>
+             <Box 
+             display='flex'
+             flexDirection='row'
+             p={2}
+             marginLeft='auto'
+
+            >
+            <Image 
+            width='30px'
+            height='30px'
+            src='/Matic.png.png'>
+                  </Image>
+            <Text fontSize='lg'
+            marginLeft='1rem'
+             color='purple.700'
+            fontWeight='bold'>{nft.price}</Text>
+            </Box>
             <Button onClick={() => buyNFT(nft)}> Comprar </Button>
+            </Box>
             </Box>
         ))}
          </Grid>
         </Flex>
+            )}
         </>
         )
 }
