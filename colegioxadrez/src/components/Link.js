@@ -21,7 +21,7 @@ const linker = (props) => {
   </BreadcrumbItem>
 
   <BreadcrumbItem isCurrentPage>
-    <BreadcrumbLink href='#'>Contact</BreadcrumbLink>
+    <BreadcrumbLink href='/dashboard'>Contact</BreadcrumbLink>
   </BreadcrumbItem>
 </Breadcrumb>
     )

@@ -11,7 +11,6 @@ import Image from 'next/image'
 
 
 function Home () {
-
 const [nfts, setNfts] = useState([])
 const [loadingState, setLoadingState] = useState('no-loaded');
 
@@ -26,10 +25,12 @@ const [loadingState, setLoadingState] = useState('no-loaded');
        
 
         const items = await Promise.all(data.map (async i => {
-            console.log(i , "her")
            const tokenUri = await tokenContract.tokenURI(i.tokenId);
-           console.log(tokenUri)
+
            const meta = await axios.get(tokenUri);
+            // Convert data to JSON
+            
+
            let price = ethers.utils.formatUnits(i.price.toString(), 'ether');
            console.log(items);
             let item = {
@@ -37,7 +38,7 @@ const [loadingState, setLoadingState] = useState('no-loaded');
                 tokenId : i.tokenId.toNumber(),
                 seller: i.seller,
                 owner : i.owner,
-                image : meta.data.image,
+                image : meta.config.url,
                 name : meta.data.name,
                 description : meta.data.description
             }
@@ -61,16 +62,13 @@ const [loadingState, setLoadingState] = useState('no-loaded');
        
 
     async function buyNFT(nft) {
-        web3Modal = new Web3Modal();
-        connection = await web3Modal.connect();
-        provider = new ethers.providers.Web3Provider(connection);
+        let web3Modal = new Web3Modal();
+        let connection = await web3Modal.connect();
+        let provider = new ethers.providers.Web3Provider(connection);
         const signer = provider.getSigner();
         const contract = new ethers.Contract(nftmarketaddres, Market.abi , signer);
         const price = ethers.utils.parseUnits(nft.price.toString(), 'ether');
-        transaction = await contract.createMarketSale(nftaddress, nft, tokenId, {
-            value : price,
-
-        });
+        let transaction = await contract.createMarketSale(nftaddress, nft.tokenId, { value : price});
         await transaction.wait();
         loadNfts();
     }
@@ -78,7 +76,7 @@ const [loadingState, setLoadingState] = useState('no-loaded');
 
     useEffect(() => {
         loadNfts();
-        
+        console.log(nfts)
     }, [])
 
     
@@ -94,30 +92,23 @@ const [loadingState, setLoadingState] = useState('no-loaded');
         >
         <Grid
         templateColumns={['1fr', '1fr', '1fr', '1fr', '1fr']}
+        templeteRow={['1fr', '1fr', '1fr', '1fr', '1fr']}
         gap={['1rem', '1rem', '1rem', '1rem', '1rem']}
         >
         {nfts.map(nft => (
             <Box
             key={nft.tokenId}
+            display='flex'
+            flexDirection='column'
             >
-            <Flex
-            width='100%'
-            height={['100%', '100%', '100%', '100%', '100%']}
-            alignItems='center'
-            justifyContent='center'
-            bg='red.100'
-            boxShadow={'xl'}
-            borderRadius={1}
-            >
-           
-            <Text > {nft.name} </Text>
-            <Text > {nft.description} </Text>
-            <Text > {nft.price} </Text>
-            <Text > {nft.owner} </Text>
-            <Text > {nft.seller} </Text>
-            <Text > {nft.tokenId} </Text>
+            <Image 
+            width='350px'
+            height='350px'
+            src={nft.image}></Image>
+            <Text fontSize='lg' fontWeight='bold'>{nft.name}</Text>
+            <Text fontSize='lg' fontWeight='bold'>{nft.description}</Text>
+            <Text fontSize='lg' fontWeight='bold'>{nft.price}</Text>
             <Button onClick={() => buyNFT(nft)}> Comprar </Button>
-            </Flex>
             </Box>
         ))}
          </Grid>
