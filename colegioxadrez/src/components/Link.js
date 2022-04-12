@@ -13,15 +13,15 @@ const linker = (props) => {
     alignItems="center"
 >
   <BreadcrumbItem>
-    <BreadcrumbLink href='CreateItem'>Home</BreadcrumbLink>
+    <Link href='CreateItem'>Home</Link>
   </BreadcrumbItem>
 
   <BreadcrumbItem>
-    <BreadcrumbLink href='#'>About</BreadcrumbLink>
+    <Link href='#'>About</Link>
   </BreadcrumbItem>
 
   <BreadcrumbItem isCurrentPage>
-    <BreadcrumbLink href='/dashboard'>Contact</BreadcrumbLink>
+    <Link href='/Dashboard'>Contact</Link>
   </BreadcrumbItem>
 </Breadcrumb>
     )
